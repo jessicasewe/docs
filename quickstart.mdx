@@ -1,82 +1,139 @@
 ---
-title: 'Quickstart'
-description: 'Start building awesome documentation in under 5 minutes'
+title: "Quickstart"
+description: "Start integrating with Zeepay's API and building powerful solutions effortlessly."
 ---
 
-## Setup your development
+## Start Using Zeepay
 
-Learn how to update your docs locally and deploy them to the public.
+To start using Zeepay's APIs, please reach out to [info@myzeepay.com](mailto:info@myzeepay.com) for onboarding. Once onboarded, you can integrate our APIs seamlessly into your applications..
 
-### Edit and preview
+### Onboarding Steps
+
+<Tip>
+    1. Reach out to [info@myzeepay.com](mailto:info@myzeepay.com) for onboarding.
+    2. Obtain your API keys.
+    3. Explore the documentation.
+    3. Start testing in the sandbox.
+
+</Tip>
+
+### Send Money
 
 <AccordionGroup>
-  <Accordion icon="github" title="Clone your docs locally">
-    During the onboarding process, we created a repository on your Github with
-    your docs content. You can find this repository on our
-    [dashboard](https://dashboard.mintlify.com). To clone the repository
-    locally, follow these
-    [instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-    in your terminal.
+  <Accordion icon="rectangle-terminal" title="Sample Request Body">
+  <Info>
+    **Note**: Authenticate all Zeepay API calls using your secret keys.
+    ```json
+      curl {{base_url}}/payouts 
+      -H "Authorization: Bearer YOUR_SECRET_KEY"
+      -H "Content-Type: application/json"
+      -X POST
+    ```
+  </Info>
+   ```json
+      "Request Body": [
+        {
+          amount:1
+          send_amount:1
+          sender_country:GHA
+          send_currency:GHS
+          sender_first_name:Zeepay
+          sender_last_name:Ghana
+          receiver_first_name:Godwin
+          receiver_last_name:Hottor
+          service_type:Wallet
+          receiver_msisdn:233245519485
+          receiver_country:GHA
+          receiver_currency:GHS
+          transaction_type:CR
+          extr_id:{{$guid}}
+          mno:MTN
+          callback_url:https://webhook.site/d477f76c-71af-49d6-9025-5b3684c5ec21
+        }
+      ]
+  ```
   </Accordion>
-  <Accordion icon="rectangle-terminal" title="Preview changes">
-    Previewing helps you make sure your changes look as intended. We built a
-    command line interface to render these changes locally. 1. Install the
-    [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the
-    documentation changes locally with this command: ``` npm i -g mintlify ```
-    2. Run the following command at the root of your documentation (where
-    `mint.json` is): ``` mintlify dev ```
+  <Accordion icon="rectangle-terminal" title="Sample Response Body">
+    ```json
+    "Response Body": [
+      {
+        "code": 411,
+        "message": "Transaction Is pending Response from third party",
+        "zeepay_id": 60480
+      }
+    ]
+    ```
   </Accordion>
 </AccordionGroup>
 
-### Deploy your changes
+### Receive Payments
 
 <AccordionGroup>
 
-<Accordion icon="message-bot" title="Install our Github app">
-  Our Github app automatically deploys your changes to your docs site, so you
-  don't need to manage deployments yourself. You can find the link to install on
-  your [dashboard](https://dashboard.mintlify.com). Once the bot has been
-  successfully installed, there should be a check mark next to the commit hash
-  of the repo.
+<Accordion icon="rectangle-terminal" title="Sample Request Body">
+<Info>
+    **Note**: Authenticate all Zeepay API calls using your secret keys.
+    ```json
+      curl {{base_url}}/debits 
+      -H "Authorization: Bearer YOUR_SECRET_KEY"
+      -H "Content-Type: application/json"
+      -X POST
+    ```
+  </Info>
+  ```json
+      "Request Body": [
+        {
+          amount:1
+          send_amount:1
+          sender_country:GHA
+          send_currency:GHS
+          sender_first_name:Zeepay
+          sender_last_name:Ghana
+          receiver_first_name:Godwin
+          receiver_last_name:Hottor
+          service_type:Wallet
+          receiver_msisdn:233245519485
+          receiver_country:GHA
+          receiver_currency:GHS
+          transaction_type:DR
+          extr_id:{{$guid}}
+          mno:MTN
+          callback_url:https://webhook.site/d477f76c-71af-49d6-9025-5b3684c5ec21
+        }
+      ]
+  ```
 </Accordion>
-<Accordion icon="rocket" title="Push your changes">
-  [Commit and push your changes to
-  Git](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository#about-git-push)
-  for your changes to update in your docs site. If you push and don't see that
-  the Github app successfully deployed your changes, you can also manually
-  update your docs through our [dashboard](https://dashboard.mintlify.com).
+<Accordion icon="rectangle-terminal" title="Sample Response Body">
+```json
+"Response Body": [
+  {
+    "code": 411,
+    "zeepay_id": 60481,
+    "amount": "1",
+    "message": "Transaction Pending Gateway Response"
+  }
+]
+```
 </Accordion>
 
 </AccordionGroup>
 
-## Update your docs
+## Zeepay Application Environments
 
 Add content directly in your files with MDX syntax and React components. You can use any of our components, or even build your own.
 
 <CardGroup>
 
-<Card title="Style Your Docs" icon="paintbrush" href="/settings/global">
-  Add flair to your docs with personalized branding.
-</Card>
-
 <Card
-  title="Add API Endpoints"
+  title="Test Environment"
   icon="square-code"
-  href="/api-playground/configuration"
+  href="/api-reference/introduction"
 >
   Implement your OpenAPI spec and enable API user interaction.
 </Card>
 
 <Card
-  title="Integrate Analytics"
-  icon="chart-mixed"
-  href="/analytics/supported-integrations"
->
-  Draw insights from user interactions with your documentation.
-</Card>
-
-<Card
-  title="Host on a Custom Domain"
+  title="Live Environment"
   icon="browser"
   href="/settings/custom-domain/subdomain"
 >
