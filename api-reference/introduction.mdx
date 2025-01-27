@@ -23,12 +23,12 @@ The Zeepay API provides access to a wide range of features, enabling you to inte
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API endpoints are authenticated using Bearer tokens.
 
 ```json
-"security": [
+"Authorization": [
   {
-    "bearerAuth": []
+    "BearerToken": "***************"
   }
 ]
 ```

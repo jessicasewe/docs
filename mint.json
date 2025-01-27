@@ -31,17 +31,17 @@
       "pages": ["api-reference/introduction"]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "API Endpoint",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "api-reference/endpoint/generate-token",
+        "api-reference/endpoint/validation",
+        "api-reference/endpoint/credit-mobile-wallet",
+        "api-reference/endpoint/debit-mobile-wallet"
       ]
     }
   ],
   "footerSocials": {
     "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
     "linkedin": "https://linkedin.com/company/mintlify"
   }
 }

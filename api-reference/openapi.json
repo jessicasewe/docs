@@ -10,38 +10,180 @@
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
+      "url": "https://test.digitaltermination.com"
     }
   ],
   "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
+    "/oauth/token": {
+      "post": {
+        "description": "Generates an OAuth Token with the provided credentials",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "client_id": {
+                    "type": "string",
+                    "description": "The client ID provided after onboarding"
+                  },
+                  "client_secret": {
+                    "type": "string",
+                    "description": "The client secret provided after onboarding"
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "The email used to create the account"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "The password for authentication"
+                  },
+                  "grant_type": {
+                    "type": "string",
+                    "description": "The OAuth2 grant type",
+                    "example": "password"
+                  }
+                },
+                "required": [
+                  "client_id",
+                  "client_secret",
+                  "username",
+                  "password",
+                  "grant_type"
+                ]
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
-            "description": "Plant response",
+            "description": "Generated OAuth token",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
+                  "type": "object",
+                  "properties": {
+                    "token_type": {
+                      "type": "string",
+                      "example": "Bearer"
+                    },
+                    "expires_in": {
+                      "type": "integer",
+                      "example": 31536000,
+                      "description": "Token expiration time in seconds"
+                    },
+                    "access_token": {
+                      "type": "string",
+                      "description": "The access token"
+                    },
+                    "refresh_token": {
+                      "type": "string",
+                      "description": "The refresh token"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/payouts/account-verification": {
+      "post": {
+        "description": "This endpoint checks the format and validity of a phone number.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "service_type": {
+                    "type": "string",
+                    "example": "Wallet",
+                    "description": "The account number to verify"
+                  },
+                  "mobile_number": {
+                    "type": "number",
+                    "example": 233245519485,
+                    "description": "The mobile number"
+                  },
+                  "receiving_country": {
+                    "type": "string",
+                    "example": "GHA",
+                    "description": "The country code of the mobile number"
+                  },
+                  "mno": {
+                    "type": "string",
+                    "example": "MTN",
+                    "description": "The mobile service provider"
+                  }
+                },
+                "required": [
+                  "service_type",
+                  "mobile_number",
+                  "receiving_country",
+                  "mno"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Validate Mobile Money Wallet",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "example": 200,
+                      "description": "Static response code indicating the status"
+                    },
+                    "response": {
+                      "type": "object",
+                      "properties": {
+                        "registration_status": {
+                          "type": "integer",
+                          "example": 1,
+                          "description": "the status"
+                        },
+                        "registration_name": {
+                          "type": "string",
+                          "example": "GODWIN HOTTOR",
+                          "description": "The name of the account holder"
+                        },
+                        "nameMatchRatio": {
+                          "type": "number",
+                          "example": null,
+                          "description": "The name match ratio"
+                        },
+                        "mno": {
+                          "type": "string",
+                          "example": "MTN",
+                          "description": "The mobile service provider"
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -57,67 +199,291 @@
               }
             }
           }
-        }
-      },
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/payouts": {
       "post": {
-        "description": "Creates a new plant in the store",
+        "description": "This endpoint credits a mobile wallet with the specified amount",
         "requestBody": {
-          "description": "Plant to add to the store",
+          "required": true,
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "integer",
+                    "example": 0.1,
+                    "description": "The amount to credit the mobile wallet"
+                  },
+                  "send_amount": {
+                    "type": "integer",
+                    "example": 0.1,
+                    "description": "The amount to send"
+                  },
+                  "sender_country": {
+                    "type": "string",
+                    "example": "GHA",
+                    "description": "The country code of the sender"
+                  },
+                  "send_currency": {
+                    "type": "string",
+                    "example": "GHS",
+                    "description": "The currency code of the sender"
+                  },
+                  "sender_first_name": {
+                    "type": "string",
+                    "example": "Zeepay",
+                    "description": "The first name of the sender"
+                  },
+                  "sender_last_name": {
+                    "type": "string",
+                    "example": "Ghana",
+                    "description": "The last name of the sender"
+                  },
+                  "receiver_first_name": {
+                    "type": "string",
+                    "example": "GODWIN",
+                    "description": "The first name of the receiver"
+                  },
+                  "receiver_last_name": {
+                    "type": "string",
+                    "example": "HOTTOR",
+                    "description": "The last name of the receiver"
+                  },
+                  "service_type": {
+                    "type": "string",
+                    "example": "Wallet",
+                    "description": "The service type"
+                  },
+                  "receiver_msidn": {
+                    "type": "integer",
+                    "description": "The receiver mobile number"
+                  },
+                  "receiver_country": {
+                    "type": "string",
+                    "example": "GHA",
+                    "description": "The country code of the receiver"
+                  },
+                  "receiver_currency": {
+                    "type": "string",
+                    "example": "GHS",
+                    "description": "The currency code of the receiver"
+                  },
+                  "transaction_type": {
+                    "type": "string",
+                    "example": "CR",
+                    "description": "The transaction type"
+                  },
+                  "extr_id": {
+                    "type": "string",
+                    "example": "guid-example",
+                    "description": "The external ID"
+                  },
+                  "mno": {
+                    "type": "string",
+                    "example": "MTN",
+                    "description": "The mobile service provider"
+                  }
+                },
+                "required": [
+                  "amount",
+                  "send_amount",
+                  "sender_country",
+                  "send_currency",
+                  "sender_first_name",
+                  "sender_last_name",
+                  "receiver_first_name",
+                  "receiver_last_name",
+                  "service_type",
+                  "receiver_msidn",
+                  "receiver_country",
+                  "receiver_currency",
+                  "transaction_type",
+                  "extr_id",
+                  "mno"
+                ]
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
-            "description": "plant response",
+            "description": "Plant deleted",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "example": 411,
+                      "description": "Static response code indicating the status"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Transaction Is pending Response from third party",
+                      "description": "This is a response message from the third party"
+                    },
+                    "zeepay_id": {
+                      "type": "integer",
+                      "example": 123456,
+                      "description": "The zeepay ID of the transaction"
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
+    "/api/debits": {
+      "post": {
+        "description": "Debits a mobile wallet with the specified amount",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customer_first_name": {
+                    "type": "string",
+                    "example": "GODWIN",
+                    "description": "The first name of the customer"
+                  },
+                  "customer_last_name": {
+                    "type": "string",
+                    "example": "HOTTOR",
+                    "description": "The mobile number of the wallet to debit"
+                  },
+                  "source_country": {
+                    "type": "string",
+                    "example": "GHA",
+                    "description": "The country code of the source"
+                  },
+                  "customer_msisdn": {
+                    "type": "number",
+                    "example": 233245519485,
+                    "description": "The mobile number of the wallet to debit"
+                  },
+                  "amount": {
+                    "type": "int32",
+                    "example": 0.1,
+                    "description": "The amount to debit the mobile wallet"
+                  },
+                  "service_type": {
+                    "type": "string",
+                    "example": "Wallet",
+                    "description": "The service type"
+                  },
+                  "extr_id": {
+                    "type": "string",
+                    "example": "guid-example",
+                    "description": "The external ID"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "ZeepayTest",
+                    "description": "The description of the transaction"
+                  },
+                  "debit_currency": {
+                    "type": "string",
+                    "example": "GHS",
+                    "description": "The currency code of the debit"
+                  },
+                  "debit_country": {
+                    "type": "string",
+                    "example": "GHA",
+                    "description": "The country code of the debit"
+                  },
+                  "mno": {
+                    "type": "string",
+                    "example": "MTN",
+                    "description": "The mobile service provider"
+                  },
+                  "transaction_type": {
+                    "type": "string",
+                    "example": "DR",
+                    "description": "The transaction type"
+                  },
+                  "callback_url": {
+                    "type": "string",
+                    "example": "https://webhook.site/3b3b3b3b-3b3b-3b3b-3b3b-3b3b3b3b3b3b",
+                    "description": "The callback URL"
+                  }
+                },
+                "required": [
+                  "amount",
+                  "customer_first_name",
+                  "customer_last_name",
+                  "source_country",
+                  "customer_msisdn",
+                  "service_type",
+                  "extr_id",
+                  "description",
+                  "debit_currency",
+                  "debit_country",
+                  "mno",
+                  "transaction_type",
+                  "callback_url"
+                ]
+              }
             }
           }
-        ],
+        },
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
+          "200": {
+            "description": "Successfully debited the mobile wallet",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200,
+                      "description": "Static response code indicating the status"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Transaction successfully debited",
+                      "description": "Message indicating successful transaction"
+                    },
+                    "transaction_id": {
+                      "type": "integer",
+                      "example": 123456,
+                      "description": "The transaction ID for the debit"
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "unexpected error",
+            "description": "Invalid request parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized request, invalid token",
             "content": {
               "application/json": {
                 "schema": {
@@ -126,37 +492,24 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     }
   },
   "components": {
     "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
       "NewPlant": {
         "allOf": [
           {
             "$ref": "#/components/schemas/Plant"
           },
           {
-            "required": [
-              "id"
-            ],
+            "required": ["id"],
             "type": "object",
             "properties": {
               "id": {
@@ -169,10 +522,7 @@
         ]
       },
       "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
+        "required": ["error", "message"],
         "type": "object",
         "properties": {
           "error": {
