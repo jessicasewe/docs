@@ -113,34 +113,71 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "service_type": {
-                    "type": "string",
-                    "example": "Wallet",
-                    "description": "The account number to verify"
+                "oneOf": [
+                  {
+                    "title": "📱 Mobile Wallet",
+                    "type": "object",
+                    "properties": {
+                      "service_type": {
+                        "type": "string",
+                        "example": "Wallet",
+                        "description": "The account number to verify"
+                      },
+                      "mobile_number": {
+                        "type": "number",
+                        "example": 233245519485,
+                        "description": "The mobile number"
+                      },
+                      "receiving_country": {
+                        "type": "string",
+                        "example": "GHA",
+                        "description": "The country code of the mobile number"
+                      },
+                      "mno": {
+                        "type": "string",
+                        "example": "MTN",
+                        "description": "The mobile service provider"
+                      }
+                    },
+                    "required": [
+                      "service_type",
+                      "mobile_number",
+                      "receiving_country",
+                      "mno"
+                    ]
                   },
-                  "mobile_number": {
-                    "type": "number",
-                    "example": 233245519485,
-                    "description": "The mobile number"
-                  },
-                  "receiving_country": {
-                    "type": "string",
-                    "example": "GHA",
-                    "description": "The country code of the mobile number"
-                  },
-                  "mno": {
-                    "type": "string",
-                    "example": "MTN",
-                    "description": "The mobile service provider"
+                  {
+                    "title": "🏦 Bank Account",
+                    "type": "object",
+                    "properties": {
+                      "service_type": {
+                        "type": "string",
+                        "example": "Bank",
+                        "description": "The account number to verify"
+                      },
+                      "account_number": {
+                        "type": "number",
+                        "example": 12345678910,
+                        "description": "The account number"
+                      },
+                      "receiving_country": {
+                        "type": "string",
+                        "example": "GHA",
+                        "description": "The country code of the account number"
+                      },
+                      "routing_number": {
+                        "type": "number",
+                        "example": 123456,
+                        "description": "The routing number of the bank"
+                      }
+                    },
+                    "required": [
+                      "service_type",
+                      "account_number",
+                      "receiving_country",
+                      "routing_number"
+                    ]
                   }
-                },
-                "required": [
-                  "service_type",
-                  "mobile_number",
-                  "receiving_country",
-                  "mno"
                 ]
               }
             }
@@ -148,7 +185,7 @@
         },
         "responses": {
           "200": {
-            "description": "Validate Mobile Money Wallet",
+            "description": "Successful response for validating Mobile Money Wallet or Bank",
             "content": {
               "application/json": {
                 "schema": {
@@ -160,29 +197,48 @@
                       "description": "Static response code indicating the status"
                     },
                     "response": {
-                      "type": "object",
-                      "properties": {
-                        "registration_status": {
-                          "type": "integer",
-                          "example": 1,
-                          "description": "the status"
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "registration_status": {
+                              "type": "integer",
+                              "example": 1,
+                              "description": "The registration status"
+                            },
+                            "registration_name": {
+                              "type": "string",
+                              "example": "GODWIN HOTTOR",
+                              "description": "The name of the account holder"
+                            },
+                            "nameMatchRatio": {
+                              "type": "number",
+                              "example": null,
+                              "description": "The name match ratio"
+                            },
+                            "mno": {
+                              "type": "string",
+                              "example": "MTN",
+                              "description": "The mobile service provider"
+                            }
+                          }
                         },
-                        "registration_name": {
-                          "type": "string",
-                          "example": "GODWIN HOTTOR",
-                          "description": "The name of the account holder"
-                        },
-                        "nameMatchRatio": {
-                          "type": "number",
-                          "example": null,
-                          "description": "The name match ratio"
-                        },
-                        "mno": {
-                          "type": "string",
-                          "example": "MTN",
-                          "description": "The mobile service provider"
+                        {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "type": "integer",
+                              "example": 1,
+                              "description": "The status"
+                            },
+                            "customer_name": {
+                              "type": "string",
+                              "example": "JAMES OBENG",
+                              "description": "The name of the customer"
+                            }
+                          }
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -209,105 +265,208 @@
     },
     "/api/payouts": {
       "post": {
-        "description": "This endpoint credits a mobile wallet with the specified amount",
+        "description": "This endpoint handles payouts, allowing different request body formats.",
         "requestBody": {
           "required": true,
           "content": {
             "application/x-www-form-urlencoded": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "amount": {
-                    "type": "integer",
-                    "example": 0.1,
-                    "description": "The amount to credit the mobile wallet"
+                "oneOf": [
+                  {
+                    "title": "📱 Mobile Wallet",
+                    "type": "object",
+                    "properties": {
+                      "amount": {
+                        "type": "integer",
+                        "example": 0.1,
+                        "description": "The amount to credit the mobile wallet"
+                      },
+                      "send_amount": {
+                        "type": "integer",
+                        "example": 0.1,
+                        "description": "The amount to send"
+                      },
+                      "sender_country": {
+                        "type": "string",
+                        "example": "GHA",
+                        "description": "The country code of the sender"
+                      },
+                      "send_currency": {
+                        "type": "string",
+                        "example": "GHS",
+                        "description": "The currency code of the sender"
+                      },
+                      "sender_first_name": {
+                        "type": "string",
+                        "example": "Zeepay",
+                        "description": "The first name of the sender"
+                      },
+                      "sender_last_name": {
+                        "type": "string",
+                        "example": "Ghana",
+                        "description": "The last name of the sender"
+                      },
+                      "receiver_first_name": {
+                        "type": "string",
+                        "example": "GODWIN",
+                        "description": "The first name of the receiver"
+                      },
+                      "receiver_last_name": {
+                        "type": "string",
+                        "example": "HOTTOR",
+                        "description": "The last name of the receiver"
+                      },
+                      "service_type": {
+                        "type": "string",
+                        "example": "Wallet",
+                        "description": "The service type"
+                      },
+                      "receiver_msidn": {
+                        "type": "integer",
+                        "description": "The receiver mobile number"
+                      },
+                      "receiver_country": {
+                        "type": "string",
+                        "example": "GHA",
+                        "description": "The country code of the receiver"
+                      },
+                      "receiver_currency": {
+                        "type": "string",
+                        "example": "GHS",
+                        "description": "The currency code of the receiver"
+                      },
+                      "transaction_type": {
+                        "type": "string",
+                        "example": "CR",
+                        "description": "The transaction type"
+                      },
+                      "extr_id": {
+                        "type": "string",
+                        "example": "guid-example",
+                        "description": "The external ID"
+                      },
+                      "mno": {
+                        "type": "string",
+                        "example": "MTN",
+                        "description": "The mobile service provider"
+                      }
+                    },
+                    "required": [
+                      "amount",
+                      "send_amount",
+                      "sender_country",
+                      "send_currency",
+                      "sender_first_name",
+                      "sender_last_name",
+                      "receiver_first_name",
+                      "receiver_last_name",
+                      "service_type",
+                      "receiver_msidn",
+                      "receiver_country",
+                      "receiver_currency",
+                      "transaction_type",
+                      "extr_id",
+                      "mno"
+                    ]
                   },
-                  "send_amount": {
-                    "type": "integer",
-                    "example": 0.1,
-                    "description": "The amount to send"
-                  },
-                  "sender_country": {
-                    "type": "string",
-                    "example": "GHA",
-                    "description": "The country code of the sender"
-                  },
-                  "send_currency": {
-                    "type": "string",
-                    "example": "GHS",
-                    "description": "The currency code of the sender"
-                  },
-                  "sender_first_name": {
-                    "type": "string",
-                    "example": "Zeepay",
-                    "description": "The first name of the sender"
-                  },
-                  "sender_last_name": {
-                    "type": "string",
-                    "example": "Ghana",
-                    "description": "The last name of the sender"
-                  },
-                  "receiver_first_name": {
-                    "type": "string",
-                    "example": "GODWIN",
-                    "description": "The first name of the receiver"
-                  },
-                  "receiver_last_name": {
-                    "type": "string",
-                    "example": "HOTTOR",
-                    "description": "The last name of the receiver"
-                  },
-                  "service_type": {
-                    "type": "string",
-                    "example": "Wallet",
-                    "description": "The service type"
-                  },
-                  "receiver_msidn": {
-                    "type": "integer",
-                    "description": "The receiver mobile number"
-                  },
-                  "receiver_country": {
-                    "type": "string",
-                    "example": "GHA",
-                    "description": "The country code of the receiver"
-                  },
-                  "receiver_currency": {
-                    "type": "string",
-                    "example": "GHS",
-                    "description": "The currency code of the receiver"
-                  },
-                  "transaction_type": {
-                    "type": "string",
-                    "example": "CR",
-                    "description": "The transaction type"
-                  },
-                  "extr_id": {
-                    "type": "string",
-                    "example": "guid-example",
-                    "description": "The external ID"
-                  },
-                  "mno": {
-                    "type": "string",
-                    "example": "MTN",
-                    "description": "The mobile service provider"
+                  {
+                    "title": "🏦 Bank Account",
+                    "type": "object",
+                    "properties": {
+                      "amount": {
+                        "type": "integer",
+                        "example": 1,
+                        "description": "The amount to credit the bank account"
+                      },
+                      "send_amount": {
+                        "type": "integer",
+                        "example": 1,
+                        "description": "The amount to send"
+                      },
+                      "sender_country": {
+                        "type": "string",
+                        "example": "GHA",
+                        "description": "The country code of the sender"
+                      },
+                      "sender_currency": {
+                        "type": "string",
+                        "example": "GHS",
+                        "description": "The currency code of the sender"
+                      },
+                      "sender_first_name": {
+                        "type": "string",
+                        "example": "Zeepay",
+                        "description": "The first name of the sender"
+                      },
+                      "sender_last_name": {
+                        "type": "string",
+                        "example": "Ghana",
+                        "description": "The last name of the sender"
+                      },
+                      "receiver_first_name": {
+                        "type": "string",
+                        "example": "GODWIN",
+                        "description": "The first name of the receiver"
+                      },
+                      "receiver_last_name": {
+                        "type": "string",
+                        "example": "HOTTOR",
+                        "description": "The last name of the receiver"
+                      },
+                      "service_type": {
+                        "type": "string",
+                        "example": "Bank",
+                        "description": "The service type"
+                      },
+                      "receiver_currency": {
+                        "type": "string",
+                        "example": "GHS",
+                        "description": "The currency code of the receiver"
+                      },
+                      "receiver_country": {
+                        "type": "string",
+                        "example": "GHA",
+                        "description": "The country code of the receiver"
+                      },
+                      "transaction_type": {
+                        "type": "string",
+                        "example": "CR",
+                        "description": "The transaction type"
+                      },
+                      "extr_id": {
+                        "type": "string",
+                        "example": "guid-example",
+                        "description": "The external ID"
+                      },
+                      "routing_number": {
+                        "type": "number",
+                        "example": 123456,
+                        "description": "The routing number of the bank"
+                      },
+                      "account_number": {
+                        "type": "number",
+                        "example": 123456789,
+                        "description": "The account number of the bank"
+                      }
+                    },
+                    "required": [
+                      "amount",
+                      "send_amount",
+                      "sender_country",
+                      "sender_currency",
+                      "sender_first_name",
+                      "sender_last_name",
+                      "receiver_first_name",
+                      "receiver_last_name",
+                      "service_type",
+                      "receiver_currency",
+                      "receiver_country",
+                      "transaction_type",
+                      "extr_id",
+                      "routing_number",
+                      "account_number"
+                    ]
                   }
-                },
-                "required": [
-                  "amount",
-                  "send_amount",
-                  "sender_country",
-                  "send_currency",
-                  "sender_first_name",
-                  "sender_last_name",
-                  "receiver_first_name",
-                  "receiver_last_name",
-                  "service_type",
-                  "receiver_msidn",
-                  "receiver_country",
-                  "receiver_currency",
-                  "transaction_type",
-                  "extr_id",
-                  "mno"
                 ]
               }
             }
@@ -315,7 +474,7 @@
         },
         "responses": {
           "200": {
-            "description": "Plant deleted",
+            "description": "Successfully processed the payout request",
             "content": {
               "application/json": {
                 "schema": {
@@ -328,13 +487,13 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Transaction Is pending Response from third party",
+                      "example": "Transaction is pending response from a third party",
                       "description": "This is a response message from the third party"
                     },
                     "zeepay_id": {
                       "type": "integer",
                       "example": 123456,
-                      "description": "The zeepay ID of the transaction"
+                      "description": "The Zeepay ID of the transaction"
                     }
                   }
                 }
@@ -437,8 +596,7 @@
                   "debit_currency",
                   "debit_country",
                   "mno",
-                  "transaction_type",
-                  "callback_url"
+                  "transaction_type"
                 ]
               }
             }
@@ -454,18 +612,23 @@
                   "properties": {
                     "code": {
                       "type": "integer",
-                      "example": 200,
+                      "example": 411,
                       "description": "Static response code indicating the status"
+                    },
+                    "zeepay_id": {
+                      "type": "integer",
+                      "example": 123456,
+                      "description": "Message indicating successful transaction"
+                    },
+                    "amount": {
+                      "type": "integer",
+                      "example": 0.1,
+                      "description": "The transaction amount"
                     },
                     "message": {
                       "type": "string",
-                      "example": "Transaction successfully debited",
-                      "description": "Message indicating successful transaction"
-                    },
-                    "transaction_id": {
-                      "type": "integer",
-                      "example": 123456,
-                      "description": "The transaction ID for the debit"
+                      "example": "Transaction Pending Gateway Response",
+                      "description": "This is a response message from the third party"
                     }
                   }
                 }
@@ -498,6 +661,235 @@
             "bearerAuth": []
           }
         ]
+      }
+    },
+    "/api/payouts/banks/{countryCode}": {
+      "get": {
+        "summary": "Get bank details by country",
+        "description": "Retrieve a list of banks for a given country using the ISO country code.",
+        "parameters": [
+          {
+            "name": "country Iso code",
+            "in": "path",
+            "required": true,
+            "description": "The ISO country code for which to retrieve bank details.",
+            "schema": {
+              "type": "string",
+              "example": "US"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of banks in the specified country.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "banks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "ACCESS BANK"
+                          },
+                          "code": {
+                            "type": "string",
+                            "example": "300329"
+                          },
+                          "country": {
+                            "type": "string",
+                            "example": "GHA"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid country ISO code."
+          },
+          "404": {
+            "description": "No banks found for the specified country."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/transactions/{zeepay_id}": {
+      "get": {
+        "summary": "Get Status of Transaction",
+        "description": "Retrieve the status of a transaction using the Zeepay ID.",
+        "parameters": [
+          {
+            "name": "zeepay_id",
+            "in": "path",
+            "required": true,
+            "description": "The Zeepay ID of the transaction.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "example": 123456
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The status of the transaction.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "example": 200,
+                      "description": "Static response code indicating the status"
+                    },
+                    "data": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "zeepay_id": {
+                              "type": "number",
+                              "example": 60456,
+                              "description": "The Zeepay ID of the transaction"
+                            },
+                            "extr_id": {
+                              "type": "string",
+                              "example": "cbeay-1234-5678-90ab-cdef12345678",
+                              "description": "The external ID"
+                            },
+                            "sender_first_name": {
+                              "type": "string",
+                              "example": "Zeepay",
+                              "description": "The first name of the sender"
+                            },
+                            "sender_last_name": {
+                              "type": "string",
+                              "example": "Ghana",
+                              "description": "The last name of the sender"
+                            },
+                            "sender_country": {
+                              "type": "string",
+                              "example": "GHA",
+                              "description": "The country code of the sender"
+                            },
+                            "recipient_first_name": {
+                              "type": "string",
+                              "example": "GODWIN",
+                              "description": "The first name of the receiver"
+                            },
+                            "recipient_last_name": {
+                              "type": "string",
+                              "example": "HOTTOR",
+                              "description": "The last name of the receiver"
+                            },
+                            "recipient_country": {
+                              "type": "string",
+                              "example": "GHA",
+                              "description": "The country code of the receiver"
+                            },
+                            "service_type": {
+                              "type": "string",
+                              "example": "Wallet",
+                              "description": "The service type"
+                            },
+                            "mobile_account": {
+                              "type": "number",
+                              "example": 233245519485,
+                              "description": "The mobile number of the wallet"
+                            },
+                            "partner": {
+                              "type": "string",
+                              "example": "ZEEPAY GHANA LIMITED",
+                              "description": "The partner name"
+                            },
+                            "fees": {
+                              "type": "number",
+                              "example": null,
+                              "description": "The transaction fees"
+                            },
+                            "status": {
+                              "type": "string",
+                              "example": "Success",
+                              "description": "The transaction status"
+                            },
+                            "status_code": {
+                              "type": "number",
+                              "example": 200,
+                              "description": "The status code"
+                            },
+                            "status_message": {
+                              "type": "string",
+                              "example": "Transaction Processed Successfully",
+                              "description": "The status message"
+                            },
+                            "amount_sent": {
+                              "type": "number",
+                              "example": 0.1,
+                              "description": "The amount sent"
+                            },
+                            "amount_payout": {
+                              "type": "number",
+                              "example": 0.1,
+                              "description": "The amount paid out"
+                            },
+                            "created_at": {
+                              "type": "object",
+                              "properties": {
+                                "date": {
+                                  "type": "string",
+                                  "example": "2021-09-01",
+                                  "description": "The creation date"
+                                },
+                                "time": {
+                                  "type": "string",
+                                  "example": "14:09:12",
+                                  "description": "The creation time"
+                                },
+                                "timezone_type": {
+                                  "type": "integer",
+                                  "example": 3,
+                                  "description": "The timezone type"
+                                }
+                              }
+                            },
+                            "last_updated": {
+                              "type": "string",
+                              "example": "2025-01-24 14:09:12",
+                              "description": "The last update timestamp"
+                            },
+                            "amount_charged": {
+                              "type": "number",
+                              "example": 0,
+                              "description": "The amount charged"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },

@@ -36,7 +36,9 @@
         "api-reference/endpoint/generate-token",
         "api-reference/endpoint/validation",
         "api-reference/endpoint/credit-mobile-wallet",
-        "api-reference/endpoint/debit-mobile-wallet"
+        "api-reference/endpoint/debit-mobile-wallet",
+        "api-reference/endpoint/get-bank-list",
+        "api-reference/endpoint/get-transaction-status"
       ]
     }
   ],
