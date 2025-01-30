@@ -5,139 +5,147 @@ description: "Start integrating with Zeepay's API and building powerful solution
 
 ## Start Using Zeepay
 
-To start using Zeepay's APIs, please reach out to [info@myzeepay.com](mailto:info@myzeepay.com) for onboarding. Once onboarded, you can integrate our APIs seamlessly into your applications..
+To get started with Zeepay's APIs, follow these simple steps:
 
-### Onboarding Steps
+1. **Contact Onboarding**: Reach out to [info@myzeepay.com](mailto:info@myzeepay.com) to initiate onboarding.
+2. **API Keys**: Once onboarded, you'll receive your unique API keys.
+3. **Documentation**: Familiarize yourself with the API documentation to understand its capabilities.
+4. **Testing**: Begin testing in the sandbox environment.
+5. **Integration**: Once confident, transition to the live environment for production use.
 
 <Tip>
-    1. Reach out to [info@myzeepay.com](mailto:info@myzeepay.com) for onboarding.
-    2. Obtain your API keys.
-    3. Explore the documentation.
-    3. Start testing in the sandbox.
-
+  **Tip**: Always safeguard your API keys to prevent unauthorized access to your
+  services.
 </Tip>
 
-### Send Money
+---
+
+## Sending Money
+
+Zeepay's **Send Money API** enables you to seamlessly send funds to your beneficiaries. Below is an example of how to use it.
 
 <AccordionGroup>
   <Accordion icon="rectangle-terminal" title="Sample Request Body">
-  <Info>
-    **Note**: Authenticate all Zeepay API calls using your secret keys.
-    ```json
-      curl {{base_url}}/payouts 
-      -H "Authorization: Bearer YOUR_SECRET_KEY"
-      -H "Content-Type: application/x-www-form-urlencoded"
-      -X POST
+    <Info>
+    **Note**: Authenticate all API calls with your secret key.  
+    Example:  
+    ```bash
+    curl {{base_url}}/payouts \
+    -H "Authorization: Bearer YOUR_SECRET_KEY" \
+    -H "Content-Type: application/x-www-form-urlencoded" \
+    -X POST
     ```
-  </Info>
-   ```json
-      "Request Body": [
-        {
-          amount:1
-          send_amount:1
-          sender_country:GHA
-          send_currency:GHS
-          sender_first_name:Zeepay
-          sender_last_name:Ghana
-          receiver_first_name:Godwin
-          receiver_last_name:Hottor
-          service_type:Wallet
-          receiver_msisdn:233245519485
-          receiver_country:GHA
-          receiver_currency:GHS
-          transaction_type:CR
-          extr_id:{{$guid}}
-          mno:MTN
-          callback_url:https://webhook.site/d477f76c-71af-49d6-9025-5b3684c5ec21
-        }
-      ]
-  ```
+    </Info>
+    ```json
+    {
+      "amount": 1,
+      "send_amount": 1,
+      "sender_country": "GHA",
+      "send_currency": "GHS",
+      "sender_first_name": "Zeepay",
+      "sender_last_name": "Ghana",
+      "receiver_first_name": "Godwin",
+      "receiver_last_name": "Hottor",
+      "service_type": "Wallet",
+      "receiver_msisdn": "233245519485",
+      "receiver_country": "GHA",
+      "receiver_currency": "GHS",
+      "transaction_type": "CR",
+      "extr_id": "{{guid}}",
+      "mno": "MTN",
+      "callback_url": "https://webhook.site/d477f76c-71af-49d6-9025-5b3684c5ec21"
+    }
+    ```
   </Accordion>
+
   <Accordion icon="rectangle-terminal" title="Sample Response Body">
     ```json
-    "Response Body": [
-      {
-        "code": 411,
-        "message": "Transaction Is pending Response from third party",
-        "zeepay_id": 60480
-      }
-    ]
+    {
+      "code": 411,
+      "message": "Transaction is pending response from third party",
+      "zeepay_id": 60480
+    }
     ```
   </Accordion>
 </AccordionGroup>
 
-### Receive Payments
+---
+
+## Receiving Payments
+
+Zeepay's **Receive Payments API** makes it easy to collect funds from your customers. Here's an example:
 
 <AccordionGroup>
-
-<Accordion icon="rectangle-terminal" title="Sample Request Body">
-<Info>
-    **Note**: Authenticate all Zeepay API calls using your secret keys.
-    ```json
-      curl {{base_url}}/debits 
-      -H "Authorization: Bearer YOUR_SECRET_KEY"
-      -H "Content-Type: application/json"
-      -X POST
+  <Accordion icon="rectangle-terminal" title="Sample Request Body">
+    <Info>
+    **Note**: Ensure all API calls are authenticated using your secret key.  
+    Example:  
+    ```bash
+    curl {{base_url}}/debits \
+    -H "Authorization: Bearer YOUR_SECRET_KEY" \
+    -H "Content-Type: application/json" \
+    -X POST
     ```
-  </Info>
-  ```json
-      "Request Body": [
-        {
-          amount:1
-          send_amount:1
-          sender_country:GHA
-          send_currency:GHS
-          sender_first_name:Zeepay
-          sender_last_name:Ghana
-          receiver_first_name:Godwin
-          receiver_last_name:Hottor
-          service_type:Wallet
-          receiver_msisdn:233245519485
-          receiver_country:GHA
-          receiver_currency:GHS
-          transaction_type:DR
-          extr_id:{{$guid}}
-          mno:MTN
-          callback_url:https://webhook.site/d477f76c-71af-49d6-9025-5b3684c5ec21
-        }
-      ]
-  ```
-</Accordion>
-<Accordion icon="rectangle-terminal" title="Sample Response Body">
-```json
-"Response Body": [
-  {
-    "code": 411,
-    "zeepay_id": 60481,
-    "amount": "1",
-    "message": "Transaction Pending Gateway Response"
-  }
-]
-```
-</Accordion>
+    </Info>
+    ```json
+    {
+      "amount": 1,
+      "send_amount": 1,
+      "sender_country": "GHA",
+      "send_currency": "GHS",
+      "sender_first_name": "Zeepay",
+      "sender_last_name": "Ghana",
+      "receiver_first_name": "Godwin",
+      "receiver_last_name": "Hottor",
+      "service_type": "Wallet",
+      "receiver_msisdn": "233245519485",
+      "receiver_country": "GHA",
+      "receiver_currency": "GHS",
+      "transaction_type": "DR",
+      "extr_id": "{{guid}}",
+      "mno": "MTN",
+      "callback_url": "https://webhook.site/d477f76c-71af-49d6-9025-5b3684c5ec21"
+    }
+    ```
+  </Accordion>
 
+  <Accordion icon="rectangle-terminal" title="Sample Response Body">
+    ```json
+    {
+      "code": 411,
+      "zeepay_id": 60481,
+      "amount": "1",
+      "message": "Transaction Pending Gateway Response"
+    }
+    ```
+  </Accordion>
 </AccordionGroup>
+
+---
 
 ## Zeepay Application Environments
 
-Add content directly in your files with MDX syntax and React components. You can use any of our components, or even build your own.
+Zeepay provides two environments to facilitate integration and testing:
 
 <CardGroup>
+  <Card
+    title="Test Environment"
+    icon="square-code"
+    href="/api-reference/introduction"
+  >
+    Use the sandbox to test your integration in a secure, simulated environment.
+  </Card>
 
-<Card
-  title="Test Environment"
-  icon="square-code"
-  href="/api-reference/introduction"
->
-  Implement your OpenAPI spec and enable API user interaction.
-</Card>
-
-<Card
-  title="Live Environment"
-  icon="browser"
-  href="/settings/custom-domain/subdomain"
->
-  Keep your docs on your own website's subdomain.
-</Card>
-
+  <Card
+    title="Live Environment"
+    icon="browser"
+    href="/settings/custom-domain/subdomain"
+  >
+    Transition to the live environment to deploy your solutions for real users.
+  </Card>
 </CardGroup>
+
+<Tip>
+  **Pro Tip**: Always test thoroughly in the sandbox before moving to the live
+  environment.
+</Tip>

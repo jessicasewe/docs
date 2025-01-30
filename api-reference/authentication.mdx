@@ -1,0 +1,60 @@
+---
+title: "Authentication"
+description: "Learn how to authenticate Zeepay API requests using Bearer tokens."
+---
+
+## Bearer Token Authentication
+
+Zeepay’s API follows a secure authentication model where **Bearer tokens** are used to validate and authorize every request made to our endpoints. The token must be included in the **Authorization** header of each request, ensuring that only authorized clients can access our services.
+
+Unlike public keys, which are used for client-side operations, Bearer tokens are generated using **private credentials**. These tokens are highly sensitive and should be treated as secret keys. It is crucial to **store tokens securely** to avoid unauthorized access. If you suspect a token has been compromised, you can easily regenerate it through the authentication process.
+
+### Best Practices:
+
+- **Store Tokens Securely**: Never expose tokens in client-side code or version control systems.
+- **Use Environment Variables**: For both the test and production environment, store sensitive tokens in environment variables.
+- **Regenerate Tokens**: If a token is compromised, immediately regenerate it via your authentication system.
+
+<Note>
+  Always keep API keys and user credentials safe. Never expose them in the
+  front-end code or any publicly accessible repositories.
+</Note>
+
+### Authorization Format
+
+To authenticate API requests, include the token in the `Authorization` header in the following format:
+
+<Info>**Authorization**: Bearer `your_token_here`</Info>
+
+#### Sample Authorization Header:
+
+<Tip>
+  Authorization: Bearer
+  e1f2g3h4i5j6k7l8m9n0o1p2q3r4s5t6u7v8w9x0y1z2a3b4c5d6fvjfbedjscyhs
+</Tip>
+
+---
+
+### Response on Missing or Invalid Authentication
+
+If a request is made without an Authorization token or with an invalid token, you will receive the following response:
+
+<Info>
+  **401: Unauthorized** You must provide a valid Bearer token in the
+  Authorization header to access the API.
+</Info>
+
+### Secure API Requests
+
+All API requests must be made over HTTPS to ensure data privacy and integrity during transmission. Ensure that your application enforces HTTPS for all interactions with Zeepay’s API.
+
+---
+
+### Token Expiration and Regeneration
+
+Tokens are typically valid for a limited period to enhance security. Once a token expires, you will need to regenerate it using your credentials. This process is designed to minimize the risk of unauthorized access.
+
+<Note>
+  Regularly check your token’s expiration date and implement an automatic
+  refresh strategy where possible.
+</Note>

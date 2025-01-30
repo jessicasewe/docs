@@ -24,11 +24,26 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction", "quickstart", "development"]
+      "pages": [
+        "introduction",
+        "quickstart",
+        "development",
+        "security-and-best-practices"
+      ]
     },
     {
       "group": "API Documentation",
-      "pages": ["api-reference/introduction"]
+      "pages": [
+        "api-reference/introduction",
+        "api-reference/authentication",
+        {
+          "group": "Errors",
+          "pages": [
+            "api-reference/errors/errors",
+            "api-reference/errors/response-codes"
+          ]
+        }
+      ]
     },
     {
       "group": "API Endpoint",
