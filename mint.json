@@ -42,7 +42,8 @@
             "api-reference/errors/errors",
             "api-reference/errors/response-codes"
           ]
-        }
+        },
+        "api-reference/callbacks-and-status-checks"
       ]
     },
     {

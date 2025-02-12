@@ -1,0 +1,42 @@
+---
+title: "Callbacks & Status Checks"
+description: "Learn how to retrieve transaction statuses via callbacks or the status check endpoint."
+---
+
+## Overview
+
+Zeepay provides two methods for retrieving transaction statuses:
+
+1. **Callbacks**: Automatically notify your application of the transaction's outcome.
+2. **Status Check Endpoint**: Allows you to manually poll the status of a transaction.
+
+These options ensure flexibility in integrating transaction tracking into your application.
+
+---
+
+## Callbacks
+
+When making a transaction request (e.g., Credit, Debit, or Cash Pick), you can include an optional `callback_url` parameter in the request body.
+
+### Callback Behavior
+
+- **What We Send:** Zeepay will send a POST request to the `callback_url` with the transaction status once it is processed.
+- **Statuses Sent via Callback:**
+  - `success`
+  - `failed`
+- **Statuses Not Sent via Callback:**
+  - `pending` transactions will not trigger a callback. Use the **Status Check Endpoint** to monitor pending transactions.
+
+### Example Callback Request
+
+Here’s what Zeepay sends to your `callback_url`:
+
+```json
+{
+  "transaction_id": "12345",
+  "status": "success",
+  "amount": "100.00",
+  "currency": "USD",
+  "timestamp": "2025-01-30T12:00:00Z"
+}
+```
