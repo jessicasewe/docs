@@ -97,12 +97,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
+        }
       }
     },
     "/api/payouts/account-verification": {
@@ -265,7 +260,7 @@
     },
     "/api/payouts": {
       "post": {
-        "description": "This endpoint handles payouts, allowing different request body formats.",
+        "description": "This endpoint handles payouts to mobile wallets, bank accounts, and cash pick-ups.",
         "requestBody": {
           "required": true,
           "content": {
@@ -349,6 +344,11 @@
                         "type": "string",
                         "example": "MTN",
                         "description": "The mobile service provider"
+                      },
+                      "callback_url": {
+                        "type": "string",
+                        "example": "https://webhook.site/3b3b3b3b-3b3b-3b3b-3b3b-3b3b3b3b3b3b",
+                        "description": "The callback URL (optional)"
                       }
                     },
                     "required": [
@@ -447,6 +447,11 @@
                         "type": "number",
                         "example": 123456789,
                         "description": "The account number of the bank"
+                      },
+                      "callback_url": {
+                        "type": "string",
+                        "example": "https://webhook.site/3b3b3b3b-3b3b-3b3b-3b3b-3b3b3b3b3b3b",
+                        "description": "The callback URL (optional)"
                       }
                     },
                     "required": [
@@ -465,6 +470,108 @@
                       "extr_id",
                       "routing_number",
                       "account_number"
+                    ]
+                  },
+                  {
+                    "title": "💰 Cash PickUp",
+                    "type": "object",
+                    "properties": {
+                      "amount": {
+                        "type": "integer",
+                        "example": 0.1,
+                        "description": "The amount to credit the mobile wallet"
+                      },
+                      "send_amount": {
+                        "type": "integer",
+                        "example": 0.1,
+                        "description": "The amount to send"
+                      },
+                      "sender_country": {
+                        "type": "string",
+                        "example": "GHA",
+                        "description": "The country code of the sender"
+                      },
+                      "send_currency": {
+                        "type": "string",
+                        "example": "GHS",
+                        "description": "The currency code of the sender"
+                      },
+                      "sender_first_name": {
+                        "type": "string",
+                        "example": "Zeepay",
+                        "description": "The first name of the sender"
+                      },
+                      "sender_last_name": {
+                        "type": "string",
+                        "example": "Ghana",
+                        "description": "The last name of the sender"
+                      },
+                      "receiver_first_name": {
+                        "type": "string",
+                        "example": "GODWIN",
+                        "description": "The first name of the receiver"
+                      },
+                      "receiver_last_name": {
+                        "type": "string",
+                        "example": "HOTTOR",
+                        "description": "The last name of the receiver"
+                      },
+                      "service_type": {
+                        "type": "string",
+                        "example": "PickUp",
+                        "description": "PickUp"
+                      },
+                      "receiver_msidn": {
+                        "type": "integer",
+                        "description": "The receiver mobile number"
+                      },
+                      "receiver_country": {
+                        "type": "string",
+                        "example": "GHA",
+                        "description": "The country code of the receiver"
+                      },
+                      "receiver_currency": {
+                        "type": "string",
+                        "example": "GHS",
+                        "description": "The currency code of the receiver"
+                      },
+                      "transaction_type": {
+                        "type": "string",
+                        "example": "CR",
+                        "description": "The transaction type"
+                      },
+                      "extr_id": {
+                        "type": "string",
+                        "example": "guid-example",
+                        "description": "The external ID"
+                      },
+                      "mno": {
+                        "type": "string",
+                        "example": "MTN",
+                        "description": "The mobile service provider"
+                      },
+                      "callback_url": {
+                        "type": "string",
+                        "example": "https://webhook.site/3b3b3b3b-3b3b-3b3b-3b3b-3b3b3b3b3b3b",
+                        "description": "The callback URL (optional)"
+                      }
+                    },
+                    "required": [
+                      "amount",
+                      "send_amount",
+                      "sender_country",
+                      "send_currency",
+                      "sender_first_name",
+                      "sender_last_name",
+                      "receiver_first_name",
+                      "receiver_last_name",
+                      "service_type",
+                      "receiver_msidn",
+                      "receiver_country",
+                      "receiver_currency",
+                      "transaction_type",
+                      "extr_id",
+                      "mno"
                     ]
                   }
                 ]
@@ -581,7 +688,7 @@
                   "callback_url": {
                     "type": "string",
                     "example": "https://webhook.site/3b3b3b3b-3b3b-3b3b-3b3b-3b3b3b3b3b3b",
-                    "description": "The callback URL"
+                    "description": "The callback URL (optional)"
                   }
                 },
                 "required": [
@@ -889,7 +996,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     }
   },

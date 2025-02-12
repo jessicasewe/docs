@@ -24,12 +24,7 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": [
-        "introduction",
-        "quickstart",
-        "development",
-        "security-and-best-practices"
-      ]
+      "pages": ["introduction", "quickstart", "security-and-best-practices"]
     },
     {
       "group": "API Documentation",
@@ -43,7 +38,8 @@
             "api-reference/errors/response-codes"
           ]
         },
-        "api-reference/callbacks-and-status-checks"
+        "api-reference/callbacks-and-status-checks",
+        "api-reference/test-data"
       ]
     },
     {
@@ -60,6 +56,6 @@
   ],
   "footerSocials": {
     "x": "https://x.com/mintlify",
-    "linkedin": "https://linkedin.com/company/mintlify"
+    "linkedin": "https://linkedin.com/company/zeepay-ghana"
   }
 }

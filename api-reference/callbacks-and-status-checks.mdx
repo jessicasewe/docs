@@ -33,10 +33,22 @@ Here’s what Zeepay sends to your `callback_url`:
 
 ```json
 {
-  "transaction_id": "12345",
-  "status": "success",
-  "amount": "100.00",
-  "currency": "USD",
-  "timestamp": "2025-01-30T12:00:00Z"
+  "zeepay_id": 12345,
+  "reference": "RSN230130A45B7",
+  "status": "Success",
+  "code": 200,
+  "message": "Transaction Successful",
+  "gateway_id": null
+}
+```
+
+```json
+{
+  "zeepay_id": 12345,
+  "reference": "RSN230130A45B7",
+  "status": "Error",
+  "code": 400,
+  "message": "Failed At Payment Gateway",
+  "gateway_id": 76345648297
 }
 ```
