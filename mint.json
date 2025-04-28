@@ -21,6 +21,10 @@
       "url": "api-reference"
     },
     {
+      "name": "Instntmny Local",
+      "url": "instntmny-local"
+    },
+    {
       "name": "Instntmny API (Remittance)",
       "url": "instntmny-remittance"
     },
@@ -32,6 +36,7 @@
       "name": "Instntmny Business",
       "url": "instntmny-business"
     }
+
   ],
   "navigation": [
     {
@@ -58,7 +63,7 @@
       "group": "Instntmny Local Restful API",
       "pages": [
         "instntmny-local/overview"
-      ]
+    ]
     },
     {
       "group": "API Endpoint",
