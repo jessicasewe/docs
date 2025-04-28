@@ -1003,7 +1003,920 @@
           }
         ]
       }
-    }
+    },
+    "/api/instntmny-local/transactions/wallets/credit-wallet":{
+      "post": {
+        "description": "This endpoint handles payouts to mobile wallets",
+        "requestBody": {
+          "required":true,
+          "content": {
+            "application/json":{
+              "schema":{
+                "type":"object",
+                "properties":{
+                  "customerName":{
+                    "type":"string",
+                    "description":"The receiver's name",
+                    "example":"Eugene Osei"
+                  },
+                  "mno":{
+                    "type":"string",
+                    "description":"The mobile service provider",
+                    "example":"Zeepay"
+                  },
+                  "amount":{
+                    "type":"number",
+                    "description":"The amount to credit the mobile wallet",
+                    "example":"1"
+                  },
+                  "msisdn":{
+                    "type":"number",
+                    "description":"The receiver mobile number",
+                    "example":"233201854694"                 
+                  },
+                  "description":{
+                    "type":"string",
+                    "description":"The description of the transaction",
+                    "example":"Zeepay Test Wallet Credit"
+                  },
+                  "reference":{
+                    "type":"string",
+                    "description":"Transaction reference",
+                    "example":"23453452"
+                  }
+                },
+                "required":[
+                  "customerName",
+                  "mno",
+                  "amount",
+                  "msisdn",
+                  "description",
+                  "reference"
+                ]
+              }
+            }
+          }
+        },
+        "responses":{
+          "200":{
+            "description": "Successfully processed the payout request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "example": 411,
+                      "description": "Static response code indicating the status"
+                    },
+                    "zeepay_id": {
+                      "type": "integer",
+                      "example": 123456,
+                      "description": "The Zeepay ID of the transaction"
+                    },
+                    "amount": {
+                      "type": "number",
+                      "example": "1",
+                      "description":"The amount sent"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Pending Gateway Response",
+                      "description": "This is a response message from the third party"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/custom/transactions/tech-maxx/wallets/debit-wallet":{
+      "post":{
+        "description":"This endpoint handles debits from mobile wallets",
+        "requestBody":{
+          "required":true,
+          "content":{
+            "application/json":{
+              "schema":{
+                "type":"object",
+                "properties":{
+                  "customerName":{
+                    "type":"string",
+                    "description":"The receiver's name",
+                    "example":"Eugene Osei"
+                  },
+                  "mno":{
+                    "type":"string",
+                    "description":"The mobile service provider",
+                    "example":"Zeepay"
+                  },
+                  "amount":{
+                    "type":"number",
+                    "description":"The amount to credit the mobile wallet",
+                    "example":"1"
+                  },
+                  "msisdn":{
+                    "type":"number",
+                    "description":"The receiver mobile number",
+                    "example":"233201854694"                 
+                  },
+                  "description":{
+                    "type":"string",
+                    "description":"The description of the transaction",
+                    "example":"Zeepay Test Wallet Credit"
+                  },
+                  "reference":{
+                    "type":"string",
+                    "description":"Transaction reference",
+                    "example":"23453452"
+                  },
+                  "callback_url":{
+                    "type":"string",
+                    "description":"The callback URL (optional)",
+                    "example":"https://your-domain.com/webhook/payment-status"
+                  }
+                },
+                "required":[
+                  "customerName",
+                  "mno",
+                  "amount",
+                  "msisdn",
+                  "description",
+                  "reference"
+                ]
+              }
+            }
+          }
+        },
+        "responses":{
+          "200":{
+            "description": "Successfully processed the payout request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "example": 411,
+                      "description": "Static response code indicating the status"
+                    },
+                    "zeepay_id": {
+                      "type": "integer",
+                      "example": 123456,
+                      "description": "The Zeepay ID of the transaction"
+                    },
+                    "amount": {
+                      "type": "number",
+                      "example": "1",
+                      "description":"The amount to debit the mobile wallet"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Pending Gateway Response",
+                      "description": "This is a response message from the third party"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/custom/transactions/tech-maxx/gateways/banks": {
+      "get": {
+        "summary": "Get supported bank list",
+        "description": "Retrieve list of supported banks for Tech Maxx",
+        "responses": {
+          "200": {
+            "description": "A successful response with a list of supported banks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "banks": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "Access bank"
+                          },
+                          "code": {
+                            "type": "string",
+                            "example": "203948"
+                          },
+                          "country": {
+                            "type": "string",
+                            "example": "GHA"
+                          }
+                        }
+                      },
+                      "example": [
+                        {
+                          "name": "Access bank",
+                          "code": "203948",
+                          "country": "GHA"
+                        },
+                        {
+                          "name": "Ecobank",
+                          "code": "198234",
+                          "country": "GHA"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/custom/transactions/tech-maxx/credits/banks": {
+      "post": {
+        "summary": "Credit bank account",
+        "description": "Initiates a bank account credit transaction",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customerName": {
+                    "type": "string",
+                    "description":"The receiver's name",
+                    "example": "Internal QA"
+                  },
+                  "bank_code": {
+                    "type": "string",
+                    "example": "300323",
+                    "description": "The bank code/ routing number"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "example": 1,
+                    "description": "The amount to credit the bank account"
+                  },
+                  "accountNumber": {
+                    "type": "string",
+                    "example": "2030160608116",
+                    "description":"The bank account number"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description":"The description of the transaction",
+                    "example": "Test Zeepay Bank Credit"
+                  },
+                  "reference":{
+                    "type":"string",
+                    "description":"Transaction reference",
+                    "example":"23453452"
+                  },
+                  "callback_url":{
+                    "type":"string",
+                    "description":"The callback URL (optional)",
+                    "example":"https://your-domain.com/webhook/payment-status"
+                  }
+                },
+                "required": ["customerName", "bank_code", "amount", "reference", "accountNumber", "description"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transaction success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "411",
+                      "description": "Static response code indicating the status"
+                    },
+                    "zeepay_id": {
+                      "type": "integer",
+                      "example": 123456,
+                      "description": "The Zeepay ID of the transaction"
+                    },
+                    "amount": {
+                      "type": "number",
+                      "example": "1",
+                      "description":"The amount to debit the mobile wallet"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Pending Gateway Response",
+                      "description": "This is a response message from the third party"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or parameters"
+          },
+          "401": {
+            "description": "Unauthorized or missing token"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/instntmny/utilities/airtime/get-allowed-packages": {
+      "get": {
+        "summary":"Do Airtime Validation",
+        "description": "Verify the Recipients MSISDN (Number)",
+        "requestBody": {
+          "required":true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type":"object",
+                "properties":{
+                  "msisdn": {
+                    "type": "number",
+                    "description": "The mobile number",
+                    "example": "233201854694"
+                  },
+                  "countryCode": {
+                    "type": "string",
+                    "description": "The ISO country code",
+                    "example": "GHA"
+                  },
+                  "packageAmount": {
+                    "type": "number",
+                    "description":"Amount to top up airtime",
+                    "example": 1
+                  },
+                  "operatorCode": {
+                    "type": "string",
+                    "description":"Mobile Network to top up",
+                    "example": "Vodafone"
+                  }
+                },
+                "required":["msisdn", "countryCode", "packageAmount", "operatorCode"]
+              }
+            }
+          }
+        },
+        "responses":{
+          "200":{
+            "description": "Transaction success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type":"string",
+                      "example": "200",
+                      "description":"Static response code indicating the status"
+                    },
+                    "packageAmount": {
+                      "type":"string",
+                      "example":"1",
+                      "description": "Amount to top up airtime"
+                    },
+                    "msisdn": {
+                      "type": "number",
+                      "example": 233201854694,
+                      "description": "Mobile Network to top up"
+                    },
+                    "denomination": {
+                      "type": "string",
+                      "example": "RANGE",
+                      "description": "Returns **RANGE** for variable package amounts or **FIXED** for denominated packages"
+                    },
+                    "receiving_country": {
+                      "type": "string",
+                      "example": "GHA",
+                      "description": "ISO-3 country code of the receiver's country"
+                    },
+                    "amount_charged": {
+                      "type": "number",
+                      "example": "2",
+                      "description": "The Amount to be used in step 2 for **RANGE** denomination and **FIXED** denomination"
+                    },
+                    "allowed_packages": {
+                      "type": "string",
+                      "example": null,
+                      "description": "Returns an array of acceptable packageAmounts for the specified mno in the receiving country for **FIXED** denomination. Returns null for **RANGE** denomination."
+                    },
+                    "currency": {
+                      "type": "string",
+                      "example": "GHS",
+                      "description": "ISO-3 currency code of receiver's country"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "validation_successful",
+                      "description": "Indicates whether the validation was successful. A response of validation_successful means you can continue to the next step, while validation_unsuccessful means the process should be halted."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or parameters"
+          },
+          "401": {
+            "description": "Unauthorized or missing token"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/instntmny/utilities/airtime/do-top-up": {
+      "post": {
+        "summary": "Complete Airtime Top Up",
+        "description": "Complete Airtime Top Up to Recipients MSISDN (Number)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "senderCountryCode": {
+                    "type": "string",
+                    "description": "ISO-3 country code of sending country",
+                    "example": "USA"
+                  },
+                  "recipientName": {
+                    "type": "string",
+                    "description": "The name of airtime recipient",
+                    "example": "Eugene Osei"
+                  },
+                  "senderName": {
+                    "type": "string",
+                    "description": "The name of airtime sender",
+                    "example": "Godwin Hottor"
+                  },
+                  "receivingCountryCode": {
+                    "type": "string",
+                    "description": "ISO-3 country code of receiver's country",
+                    "example": "GHA"
+                  },
+                  "operatorCode": {
+                    "type": "string",
+                    "description": "The mobile Network to top up",
+                    "example": "Vodafone"
+                  },
+                  "packageAmount": {
+                    "type": "number",
+                    "description": "The amount to top up airtime",
+                    "example": "1"
+                  },
+                  "reference":{
+                    "type":"string",
+                    "description":"Transaction reference",
+                    "example":"23453452"
+                  },
+                  "senderMsisdn":{
+                    "type": "number",
+                    "description": "The sender's msisdn (mobile number)",
+                    "example": "233245519485"
+                  },
+                  "receiverMsisdn":{
+                    "type": "number",
+                    "description": "The receiver's msisdn (mobile number)",
+                    "example": "233201854694"
+                  },
+                  "callback_url":{
+                    "type":"string",
+                    "description":"The callback URL (optional)",
+                    "example":"https://your-domain.com/webhook/payment-status"
+                  }
+                },
+                "required": [
+                  "senderCountryCode", 
+                  "recipientName", 
+                  "senderName", 
+                  "receivingCountryCode", 
+                  "operatorCode", 
+                  "packageAmount", 
+                  "reference", 
+                  "senderMsisdn",
+                  "receiverMsisdn"
+                ]
+              }
+            }
+          }
+        },
+        "responses":{
+          "200":{
+            "description": "Transaction success response",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties":{
+                    "code":{
+                      "type":"string",
+                      "example": "411",
+                      "description": "Static response code indicating the status"
+                    },
+                    "message": {
+                      "type":"string",
+                      "example": "Pending Gateway Response",
+                      "description": "This is a response message from the third party"
+                    },
+                    "zeepay_id": {
+                      "type": "integer",
+                      "example": 908765464,
+                      "description": "The Zeepay ID of the transaction"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/instntmny-local/transactions/status/{zeepay_id}": {
+      "get": {
+        "summary": "Get Status of Transaction",
+        "description": "Retrieve the status of a transaction using the Zeepay ID.",
+        "parameters": [
+          {
+            "name": "zeepay_id",
+            "in": "path",
+            "required": true,
+            "description": "The Zeepay ID of the transaction.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "example": 123456
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The status of the transaction.",
+            "content": {
+              "application/json":{
+                "schema": {
+                  "type":"object",
+                  "properties": {
+                    "zeepay_id": {
+                      "type": "integer",
+                      "example": 23456,
+                      "description": "Message indicating successful transaction"
+                    },
+                    "reference":{
+                    "type":"string",
+                    "description":"Transaction reference",
+                    "example":"23453452"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "example": "Sucess",
+                      "description": "The status"
+                    },
+                    "code": {
+                      "type": "number",
+                      "example": 200,
+                      "description": "Static response code indicating the status"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Transaction Processed Successfully",
+                      "description": "This is a response message from the third party"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/bill-payment/get-biller-list": {
+        "get": {
+          "summary": "Get Available Billers",
+          "description": "Retrieves a list of available billers for services such as airtime, data bundles, electricity, and water across supported countries.",
+          "tags": ["Bill Payment"],
+          "responses": {
+            "200": {
+              "description": "A list of billers successfully retrieved.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "integer",
+                        "example": 200
+                      },
+                      "data": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "1234"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "MTN Airtime"
+                            },
+                            "alias": {
+                              "type": "string",
+                              "example": "MTN"
+                            },
+                            "category": {
+                              "type": "string",
+                              "example": "Airtime"
+                            },
+                            "countries": {
+                              "type": "string",
+                              "example": "GH"
+                            },
+                            "logo_url": {
+                              "type": "string",
+                              "example": "https://test.digitaltermination.com/images/logos/billers/gotvmax.png"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ]
+        }
+    },
+    "/api/bill-payment/account-validation/{biller_id}": {
+        "post": {
+          "summary": "Validate Bill Payment",
+          "description": "This endpoint validates the biller along with the customer account information.",
+          "parameters": [
+            {
+              "name": "biller_id",
+              "in": "path",
+              "required": true,
+              "description": "The unique identifier for the biller",
+              "schema": {
+                "type": "string",
+                "format": "uuid",
+                "example": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "destination_account": {
+                      "type": "number",
+                      "description": "The mobile Network to top up",
+                      "example": "233201854694"
+                    },
+                    "payer_name": {
+                      "type": "string",
+                      "description": "The sender's name",
+                      "example": "Internal QA"
+                    },
+                    "receive_currency": {
+                      "type": "string",
+                      "description": "The ISO-3 of receiver's currency",
+                      "example": "GHS"
+                    },
+                    "receive_country": {
+                      "type": "string",
+                      "description": "The ISO-3 of receiver's country",
+                      "example": "GHA"
+                    },
+                    "send_country": {
+                      "type": "string",
+                      "description": "The ISO-3 of sender's country",
+                      "example": "ZMB"
+                    },
+                    "send_currency": {
+                      "type": "string",
+                      "description": "The ISO-3 of sender's currency",
+                      "example": "ZMW"
+                    },
+                    "reference": {
+                      "type": "string",
+                      "description": "Transaction reference",
+                      "example": "ZMB3492bdu"
+                    },
+                    "receive_amount": {
+                      "type": "number",
+                      "description": "The amount paid out",
+                      "example": "1"
+                    },
+                    "send_amount": {
+                      "type": "number",
+                      "description": "The amount sent",
+                      "example": "2"
+                    }
+                  },
+                  "required": [
+                  "destination_account",
+                  "payer_name", 
+                  "receive_currency", 
+                  "receive_country",
+                  "send_country",
+                  "send_currency",
+                  "reference",
+                  "receive_amount",
+                  "send_amount"
+                ]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Validation successful",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "account_name": {
+                        "type": "string",
+                        "example": "Vodafone"
+                      },
+                      "account": {
+                        "type": "number",
+                        "example": 233201854694
+                      },
+                      "amount": {
+                        "type": "number",
+                        "example": null
+                      },
+                      "zeepay_id": {
+                        "type": "number",
+                        "example": 61108
+                      },
+                      "route": {
+                        "type": "string",
+                        "example": "Sochitel"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ]
+        }
+    },
+    "/api/bill-payment/initiate-payment/{zeepay_id}": {
+      "post": {
+        "summary": "Make Payment",
+        "description": "This endpoint initiates the final payment of the the bill selected",
+        "parameters": [
+          {
+            "name": "zeepay_id",
+              "in": "path",
+              "required": true,
+              "description": "The Zeepay ID of the transaction.",
+              "schema": {
+                "type": "string",
+                "format": "uuid",
+                "example": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+              }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "destination_account": {
+                      "type": "number",
+                      "description": "The mobile Network to top up",
+                      "example": "233201854694"
+                    },
+                  "send_amount": {
+                      "type": "number",
+                      "description": "The amount sent",
+                      "example": 1
+                  },
+                  "receive_amount": {
+                      "type": "number",
+                      "description": "The amount paid out",
+                      "example": 1
+                  }
+                },
+                "required": [
+                  "destination_account",
+                  "send_amount",
+                  "receive_amount"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transaction success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": null
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Transaction Processed Successfully"
+                    },
+                    "zeepay_id":{
+                      "type": "number",
+                      "example": 26173
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }   
+        
   },
   "components": {
     "schemas": {

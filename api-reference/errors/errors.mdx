@@ -8,82 +8,82 @@ description: "A comprehensive guide to Zeepay API error codes and how to resolve
 The following are common HTTP status codes you might encounter when interacting with Zeepay’s API, along with descriptions of what they mean and suggested actions.
 
 <Steps>
-  <Step title="103 - Wallet Balance Ceiling Breach" stepNumber="📌">
+  <Step title="103 - Wallet Balance Ceiling Breach" icon="map-pin">
     **Action Required**: No immediate action is needed from your side. However,
     this indicates that the transaction cannot proceed due to the recipient’s
     wallet balance exceeding its ceiling limit.
   </Step>
-  <Step title="200 - Validated Success" stepNumber="📌">
+  <Step title="200 - Validated Success" icon="map-pin">
     **Action Required**: None. The request was successful. The wallet exists,
     and you can proceed with the transaction. For charge or verify requests,
     check the data object to determine if the transaction was successful or
     failed.
   </Step>
-  <Step title="400 - Bad Request" stepNumber="📌">
+  <Step title="400 - Bad Request" icon="map-pin">
     **Action Required**: This error indicates that the request is malformed or
     missing required parameters. Double-check the format and the required fields
     of the request. Ensure that all required parameters are provided and
     correctly formatted.
   </Step>
-  <Step title="401 - Unauthorized" stepNumber="📌">
+  <Step title="401 - Unauthorized" icon="map-pin">
     **Action Required**: This error occurs when the request lacks valid
     authentication. Make sure that a valid Bearer token is included in the
     Authorization header. If the token is missing or incorrect, regenerate the
     token and try again.
   </Step>
-  <Step title="402 - Client Payment Required" stepNumber="📌">
+  <Step title="402 - Client Payment Required" icon="map-pin">
     **Action Required**: Insufficient funds to complete the transaction. Please
     review the balance and contact Zeepay for further assistance or resolve
     payment issues.
   </Step>
-  <Step title="403 - Forbidden" stepNumber="📌">
+  <Step title="403 - Forbidden" icon="map-pin">
     **Action Required**: You are attempting to access a restricted Zeepay
     resource. This resource is only accessible to users with admin privileges.
     If you believe this is an error, contact your system administrator or Zeepay
     support.
   </Step>
-  <Step title="403 - Forbidden" stepNumber="📌">
+  <Step title="403 - Forbidden" icon="map-pin">
     **Action Required**: You are attempting to access a restricted Zeepay
     resource. This resource is only accessible to users with admin privileges.
     If you believe this is an error, contact your system administrator or Zeepay
     support.
   </Step>
-  <Step title="405 - Method Not Allowed" stepNumber="📌">
+  <Step title="405 - Method Not Allowed" icon="map-pin">
     **Action Required**: You attempted to access a resource using an unsupported
     HTTP method (e.g., POST instead of GET). Check the API documentation for the
     correct method and try again.
   </Step>
-  <Step title="406 - Not Acceptable" stepNumber="📌">
+  <Step title="406 - Not Acceptable" icon="map-pin">
     **Action Required**: The request format is not supported. Only JSON is
     accepted by Zeepay’s API. Ensure your request headers specify the correct
     content type (`application/json`).
   </Step>
-  <Step title="410 - Gone" stepNumber="📌">
+  <Step title="410 - Gone" icon="map-pin">
     **Action Required**: The requested resource has been permanently removed
     from Zeepay’s servers and is no longer available. Please verify the
     resource's availability or consult the API documentation for updates.
   </Step>
-  <Step title="411 - Pending" stepNumber="📌">
+  <Step title="411 - Pending" icon="map-pin">
     **Action Required**: This error indicates that the resource is currently
     being processed and is pending on Zeepay’s servers. No action is needed from
     you, but keep checking the status of the request.
   </Step>
-  <Step title="419 - Sanctions/OFAC List Breach" stepNumber="📌">
+  <Step title="419 - Sanctions/OFAC List Breach" icon="map-pin">
     **Action Required**: The recipient is on a restricted list, and therefore
     cannot receive funds. No action is needed from you, but this situation
     requires compliance with regulations.
   </Step>
-  <Step title="429 - Too Many Requests" stepNumber="📌">
+  <Step title="429 - Too Many Requests" icon="map-pin">
     **Action Required**: You are making too many requests in a short period.
     This is a rate-limiting error. Reduce the frequency of requests and try
     again later.
   </Step>
-  <Step title="500 - Internal Server Error" stepNumber="📌">
+  <Step title="500 - Internal Server Error" icon="map-pin">
     **Action Required**: There was an unexpected issue with Zeepay's server.
     Please wait and try your request again later. If the issue persists, reach
     out to Zeepay support for assistance.
   </Step>
-  <Step title="503 - Service Unavailable" stepNumber="📌">
+  <Step title="503 - Service Unavailable" icon="map-pin">
     **Action Required**: Zeepay’s API is temporarily unavailable due to
     maintenance or overload. Try again later, and monitor any service status
     updates from Zeepay.

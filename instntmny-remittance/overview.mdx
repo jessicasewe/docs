@@ -1,0 +1,36 @@
+# Instntmny Remittance API
+
+Zeepay's **Instnmny Remittance API** enables seamless international money transfers, allowing users to send funds directly to mobile money wallets, bank accounts, or for cash pickup across multiple countries.
+
+### Key Features
+
+- 🌍 **Global Reach**: Send money from UK, USA, Europe, Canada, and parts of Asia to Ghana and other African countries.
+- 💸 **Multiple Termination Options**: Funds can be received via mobile wallets, bank accounts, or cash pickup.
+- 🔒 **Regulatory Compliance**: Fully regulated in the UK and Ghana.
+
+### Sample Request
+
+```http
+POST /api/payouts HTTP/1.1
+Host: api.zeepay.com
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+amount:0.10
+send_amount:0.10
+sender_country:ZMB
+send_currency:ZMW
+sender_first_name:Zeepay
+sender_last_name:Ghana
+receiver_first_name:Godwin
+receiver_last_name:Hottor
+service_type:Wallet
+receiver_msisdn:233245519485
+receiver_country:GHA
+receiver_currency:GHS
+transaction_type:CR
+extr_id: ZPsn238hb
+mno:VODAFONE
+callback_url:url
+}

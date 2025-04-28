@@ -1,0 +1,31 @@
+# Instntmny Local API
+
+Zeepay's **Instnmny Local API** powers fast and secure domestic money transfers within Ghana, enabling users to send funds directly to mobile money wallets, bank accounts, or for in-person cash collection.
+
+### Key Features
+
+- 🇬🇭 **Ghana-Centric Transactions**: Built specifically for domestic money transfers within Ghana.
+- 📲 **Flexible Payout Options**: Send money to mobile wallets, bank accounts, or for local cash pickup.
+- ⚡ **Real-Time Processing**: Transactions are processed instantly or within minutes for faster delivery.
+- 🔐 **Secure and Reliable**: Enforced with local banking and mobile money security standards.
+- 🏦 **Bank & Wallet Integrations**: Seamlessly connects with major banks and mobile money operators in Ghana.
+- 📊 **Detailed Transaction Logs**: Get real-time insights into transaction statuses and delivery.
+
+---
+
+### Sample Request
+
+```http
+POST /api/instntmny-local/transactions/wallets/credit-wallet HTTP/1.1
+Host: api.zeepay.com
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+    "customerName":"Eugene Osei",
+    "mno": "Vodafone",
+    "amount": "1",
+    "msisdn": "233201854694",
+    "description": "Test Wallet Credit",
+    "reference": "23456789"
+}

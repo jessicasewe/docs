@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Zeepay Developer Documentation",
   "logo": {
     "dark": "/images/zeepaylogo.png",
     "light": "/images/zeepaylogo.png"
@@ -17,8 +17,20 @@
   },
   "tabs": [
     {
-      "name": "API Referencee",
+      "name": "API Reference",
       "url": "api-reference"
+    },
+    {
+      "name": "Instntmny API (Remittance)",
+      "url": "instntmny-remittance"
+    },
+    {
+      "name": "Instntmny Bill Pay",
+      "url": "instntmny-billpayment"
+    },
+    {
+      "name": "Instntmny Business",
+      "url": "instntmny-business"
     }
   ],
   "navigation": [
@@ -43,14 +55,62 @@
       ]
     },
     {
+      "group": "Instntmny Local Restful API",
+      "pages": [
+        "instntmny-local/overview"
+      ]
+    },
+    {
       "group": "API Endpoint",
       "pages": [
-        "api-reference/endpoint/generate-token",
-        "api-reference/endpoint/validation",
-        "api-reference/endpoint/credit-mobile-wallet",
-        "api-reference/endpoint/debit-mobile-wallet",
-        "api-reference/endpoint/get-bank-list",
-        "api-reference/endpoint/get-transaction-status"
+        "instntmny-local/instnmny-endpoint/generate-token",
+        "instntmny-local/instnmny-endpoint/credit-mobile-wallet",
+        "instntmny-local/instnmny-endpoint/debit-mobile-wallet",
+        "instntmny-local/instnmny-endpoint/get-bank-list",
+        "instntmny-local/instnmny-endpoint/get-transaction-status"
+      ]
+    },
+    {
+      "group": "Instntmny Restful API (Remittance)",
+      "pages": [
+        "instntmny-remittance/overview"
+      ]
+    },
+    {
+      "group": "API Endpoint",
+      "pages": [
+        "instntmny-remittance/remittance-endpoint/generate-token",
+        "instntmny-remittance/remittance-endpoint/validation",
+        "instntmny-remittance/remittance-endpoint/credit-mobile-wallet",
+        "instntmny-remittance/remittance-endpoint/debit-mobile-wallet",
+        "instntmny-remittance/remittance-endpoint/get-bank-list",
+        "instntmny-remittance/remittance-endpoint/get-transaction-status"
+      ]
+    },
+    {
+      "group": "Instntmny Bill Pay",
+      "pages": [
+        "instntmny-billpayment/overview"
+      ]
+    },
+    {
+      "group": "API Endpoint",
+      "pages": [
+        "instntmny-billpayment/billpayment-endpoint/get-billers",
+        "instntmny-billpayment/billpayment-endpoint/validate-billpay",
+        "instntmny-billpayment/billpayment-endpoint/initiate-payment"
+      ]
+    },
+    {
+      "group": "Instntmny Business",
+      "pages": [
+        "instntmny-business/overview"
+      ]
+    },
+    {
+      "group": "API Endpoint",
+      "pages": [
+        "instntmny-business/business-endpoint/generate-token"
       ]
     }
   ],

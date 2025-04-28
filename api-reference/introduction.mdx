@@ -38,13 +38,31 @@ The Zeepay API is your gateway to a comprehensive suite of financial services, e
 3. **Start Testing**  
    Use our sandbox environment to test your integration before going live.
 
-<Card
-  title="Explore API Endpoints"
-  icon="magnifying-glass"
-  href="/api-reference/endpoint"
->
-  View the Zeepay API Endpoints
-</Card>
+---
+
+### Authentication
+
+All API requests must be authenticated using your API key:
+
+- Include your API key in the `Authorization` header as a Bearer token.
+- Example:
+
+  ```http
+  GET /transactions
+  Host: api.myzeepay.com
+  Authorization: Bearer YOUR_API_KEY
+
+---
+
+## API Integration Environments
+
+To get started, make sure you're pointing to the correct environment:
+
+- **Sandbox URL**: [https://test.digitaltermination.com](https://test.digitaltermination.com)  
+  Use this for testing your integration in a safe and isolated environment.
+
+- **Production URL**: [https://shop.digitaltermination.com](https://shop.digitaltermination.com)  
+  Use this when you're ready to go live and start processing real transactions.
 
 ---
 
