@@ -56,6 +56,7 @@
           ]
         },
         "api-reference/callbacks-and-status-checks",
+        "api-reference/mobile-networks",
         "api-reference/test-data"
       ]
     },
@@ -72,6 +73,7 @@
         "instntmny-local/instnmny-endpoint/credit-mobile-wallet",
         "instntmny-local/instnmny-endpoint/debit-mobile-wallet",
         "instntmny-local/instnmny-endpoint/get-bank-list",
+        "instntmny-local/instnmny-endpoint/credit-bank-account",
         "instntmny-local/instnmny-endpoint/get-transaction-status"
       ]
     },
@@ -115,7 +117,10 @@
     {
       "group": "API Endpoint",
       "pages": [
-        "instntmny-business/business-endpoint/generate-token"
+        "instntmny-business/business-endpoint/generate-token",
+        "instntmny-business/business-endpoint/payment-request",
+        "instntmny-business/business-endpoint/card-payment-request",
+        "instntmny-business/business-endpoint/get-status"
       ]
     }
   ],

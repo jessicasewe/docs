@@ -11,6 +11,9 @@
   "servers": [
     {
       "url": "https://test.digitaltermination.com"
+    },
+    {
+      "url": "https://business-sandbox.instntmny.com"
     }
   ],
   "paths": {
@@ -776,7 +779,7 @@
         "description": "Retrieve a list of banks for a given country using the ISO country code.",
         "parameters": [
           {
-            "name": "country Iso code",
+            "name": "countryCode",
             "in": "path",
             "required": true,
             "description": "The ISO country code for which to retrieve bank details.",
@@ -1915,8 +1918,534 @@
           }
         ]
       }
-    }   
-        
+    },
+    "/api/pay": {
+      "post": {
+        "summary": "Initiate Paymeni Request",
+        "description": "Debits a mobile wallet with the specified amount",
+        "servers": [
+          {
+            "url": "https://business-sandbox.instntmny.com"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "number",
+                    "description": "The channel code for the mobile wallet provider",
+                    "example": 2
+                  },
+                  "phone_number": {
+                    "type": "number",
+                    "description": "The mobile number of the wallet to debit",
+                    "example": "233245519485"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the account holder",
+                    "example": "Godwin Hottor"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "description": "The amount to debit the mobile wallet",
+                    "example": 1
+                  },
+                  "voucher_code": {
+                    "type": "string",
+                    "description": "required only for Vodafone Cash Transactions",
+                    "example": ""
+                  },
+                  "callback_url":{
+                    "type": "string",
+                    "description":"The callback URL (optional)",
+                    "example": ""
+                  }
+                },
+                "required": ["channel", "phone_number", "name","amount"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request Sent, pending processing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transaction": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "Cr"
+                        },
+                        "merchant_id": {
+                          "type": "number",
+                          "example": 5
+                        },
+                        "reference": {
+                          "type": "string",
+                          "example": "5-234r433434-24e3ed"
+                        },
+                        "medium": {
+                          "type": "string",
+                          "example": "MTN Mobile Money"
+                        },
+                        "amount": {
+                          "type": "number",
+                          "example": 1.01
+                        },
+                        "amount_details": {
+                          "type": "string",
+                          "example": "Hello, this is a test debit transaction"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "2"
+                        },
+                        "status_message": {
+                          "type": "string",
+                          "example": "Request sent, pending processing"
+                        },
+                        "sender_details": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "number",
+                              "example": 2
+                            },
+                            "no": {
+                              "type": "string",
+                              "example": "233245519485"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "ZEEPAY GHANA LIMITED"
+                            },
+                            "token": {
+                              "type": "string",
+                              "example": null
+                            }
+                          }
+                        },
+                        "recipient_details": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "number",
+                              "example": 8
+                            },
+                            "no": {
+                              "type": "number",
+                              "example": 5
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Godwin Hottor"
+                            }
+                          }
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Payment"
+                        },
+                        "extra": {
+                          "type": "string",
+                          "example": "Testing"
+                        },
+                        "api": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "callback_url": {
+                          "type": "string",
+                          "example": "https://webhook.site/3b3b3b3b-3b3b-3b3b-3b3b-3b3b3b3b3b3b"
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "example": "2020-04-14 16:18:31"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "example": "2020-04-14 16:18:31"
+                        },
+                        "id": {
+                          "type": "number",
+                          "example": 26
+                        }
+                      }
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Transaction Request Successful"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v2/pay":{
+      "post": {
+        "description": "Sends a payment request via VISA or MasterCard",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "first_name": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "phone_number": {
+                    "type": "number",
+                    "example": "+233245519485"
+                  },
+                  "card_number": {
+                    "type":"number",
+                    "example": "4411223344556"
+                  },
+                  "card_cvv": {
+                    "type":"number",
+                    "example": "123"
+                  },
+                  "expiry_month": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "expiry_year": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "amount": {
+                    "type": "number",
+                    "example": "1"
+                  },
+                  "callback_url": {
+                    "type": "string",
+                    "example": "https://webhook.site/3b3b3b3b-3b3b-3b3b-3b3b-3b3b3b3b3b3b"
+                  },
+                  "return_url": {
+                    "type": "string",
+                    "example": "https://webhook.site/3b3b3b3b-3b3b-3b3b-3b3b-3b3b3b3b3b3b"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The status of the transaction.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transaction":{
+                      "type":"object",
+                      "properties":{
+                        "id":{
+                          "type": "number",
+                          "example": 88
+                        },
+                        "merchant_id": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "type": {
+                          "type": "string",
+                          "example": "Cr"
+                        },
+                        "medium": {
+                          "type": "string",
+                          "example": "Card"
+                        },
+                        "reference": {
+                          "type": "string",
+                          "example": "1-2438378-0998"
+                        },
+                        "zeepay_id": {
+                          "type": "number",
+                          "example": 22389
+                        },
+                        "amount": {
+                          "type": "number",
+                          "example": 1.01
+                        },
+                        "amount_details": {
+                          "type": "object",
+                          "properties":{
+                            "cc": {
+                              "type": "number",
+                              "example": 0.02
+                            },
+                            "rate": {
+                              "type": "string",
+                              "example": "1.00"
+                            },
+                            "send": {
+                              "type": "number",
+                              "example": 1.01
+                            },
+                            "receive": {
+                              "type": "number",
+                              "example": 0.99
+                            },
+                            "send_local": {
+                              "type": "number",
+                              "example": 1.01
+                            },
+                            "send_currency": {
+                              "type": "string",
+                              "example": "GHS"
+                            },
+                            "receive_currency": {
+                              "type": "string",
+                              "example": "GHS"
+                            }
+                          }
+                        },
+                        "medium_details": {
+                          "type": "object",
+                          "properties": {
+                            "threeds_url": {
+                              "type": "string",
+                              "example": "https://webhook.site/3b3b3b3b-3b3b-3b3b-3b3b-3b3b3b3b3b3b"
+                            }
+                          }
+                        },
+                        "status": {
+                          "type":"string",
+                          "example": "2"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/transaction/status": {
+      "post": {
+        "description": "Gets the Transaction Status",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "transaction_id": {
+                    "type": "number",
+                    "example": "22869"
+                  }
+                },
+                "required": ["transaction_id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ths status of the transaction.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                  "properties": {
+                    "transaction":{
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number",
+                          "example": 27
+                        },
+                        "merchant_id": {
+                          "type": "string",
+                          "example": "5"
+                        },
+                        "type": {
+                          "type": "string",
+                          "example": "Cr"
+                        },
+                        "medium": {
+                          "type": "string",
+                          "example": "Card"
+                        },
+                        "reference": {
+                          "type": "string",
+                          "example": "1-2438378-0998"
+                        },
+                        "zeepay_id": {
+                          "type": "number",
+                          "example": null
+                        },
+                        "gateway_id": {
+                          "type": "string",
+                          "example": null
+                        },
+                        "amount": {
+                          "type": "number",
+                          "example": 1.01
+                        },
+                        "amount_details": {
+                          "type": "object",
+                          "properties":{
+                            "cc": {
+                              "type": "number",
+                              "example": 0.02
+                            },
+                            "send": {
+                              "type": "number",
+                              "example": 1.01
+                            },
+                            "receive": {
+                              "type": "number",
+                              "example": 1
+                            }
+                          }
+                        },
+                        "medium_details": {
+                          "type": "string",
+                          "example": null
+                        },
+                        "status": {
+                          "type": "number",
+                          "example": "2"
+                        },
+                        "status_message": {
+                          "type": "string",
+                          "example": "Request Sent, pending processing"
+                        },
+                        "sender_details": {
+                          "type": "object",
+                          "properties": {
+                            "no":{
+                              "type": "number",
+                              "example": null
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Kwesi Appiah"
+                            },
+                            "type": {
+                              "type": "number",
+                              "example": 5
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "kwesiappiah@test.com"
+                            },
+                            "card_number": {
+                              "type": "number",
+                              "example": "12***********7889"
+                            }
+                          }
+                        },
+                        "recipient_details": {
+                          "type": "object",
+                          "properties": {
+                            "no": {
+                              "type": "number",
+                              "example": 5
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "MS"
+                            },
+                            "type": {
+                              "type": "number",
+                              "example": 8
+                            }
+                          }
+                        },
+                        "reason": {
+                          "type": "string",
+                          "example": null
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Payment"
+                        },
+                        "extra": {
+                          "type": "string",
+                          "example": null
+                        },
+                        "api": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "callback_url": {
+                          "type": "string",
+                          "example": "https://your-domain.com/webhook/payment-status"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "example": "2020-04-14 16:18:31"
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "example": "2020-04-14 16:18:31"
+                        }
+                      }
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Transaction Retrieval Successful"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }    
   },
   "components": {
     "schemas": {

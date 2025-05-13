@@ -13,7 +13,7 @@ description: "The Zeepay APIs return a standard set of status codes that cover v
     Zeepay Support to communicate with MTO if action is required.
   </Step>
   <Step title="TME - Transaction MNO Empty" icon="map-pin">
-    Zeepay Support to communicate with MTO if action is required.
+    Transaction MNO field is missing. Zeepay Support to engage the MTO if necessary.
   </Step>
   <Step title="PSFL - Partner Sub-Wallet Funds Low" icon="map-pin">
     Zeepay Support to communicate with MTO if action is required.
@@ -22,7 +22,7 @@ description: "The Zeepay APIs return a standard set of status codes that cover v
     No action required from MTO.
   </Step>
   <Step title="DWRL - Destination Wallet Resolution Failure" icon="map-pin">
-    DT one related only.
+    Invalid or missing receiving country
   </Step>
   <Step title="OADF - OVA (Zeepay) Debit Failure" icon="map-pin">
     No action required from MTO.
@@ -37,11 +37,13 @@ description: "The Zeepay APIs return a standard set of status codes that cover v
   <Step title="ACF - Authentication Code Failure" icon="map-pin">
     Aggregator Related Only.
   </Step>
-  <Step title="SCF - Sending Country resolution failure" icon="map-pin"></Step>
+  <Step title="SCF - Sending Country resolution failure" icon="map-pin">
+   Invalid or missing sending country
+  </Step>
   <Step
     title="TAF - Transaction Amount Resolution Failure"
     icon="map-pin"
-  ></Step>
+  >Insufficient or Missing Amount</Step>
   <Step title="WIVF - Transaction Amount Resolution Failure" icon="map-pin">
     Aggregator Related Only.
   </Step>
