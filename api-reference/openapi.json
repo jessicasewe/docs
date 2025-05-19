@@ -16,7 +16,7 @@
       "url": "https://business-sandbox.instntmny.com"
     }
   ],
-  "api": {
+  "x-api": {
     "playground": {
       "proxy": false
     }
