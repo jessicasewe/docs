@@ -10,12 +10,10 @@
   },
   "servers": [
     {
-      "url": "https://test.digitaltermination.com",
-      "x-mintlify-proxy": false
+      "url": "https://test.digitaltermination.com"
     },
     {
-      "url": "https://business-sandbox.instntmny.com",
-      "x-mintlify-proxy": false
+      "url": "https://business-sandbox.instntmny.com"
     }
   ],
   "paths": {
