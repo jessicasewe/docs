@@ -136,8 +136,7 @@
   },
   "api": {
     "playground": {
-      "display": "interactive",
-      "proxy": false
+      "display": "interactive"
     }
   },
   "footer": {
