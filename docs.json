@@ -136,12 +136,13 @@
   },
   "api": {
     "playground": {
-      "display": "interactive"
+      "display": "interactive",
+      "proxy": false
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
+      "x": "https://x.com/myzeepay",
       "linkedin": "https://linkedin.com/company/zeepay-ghana"
     }
   }
