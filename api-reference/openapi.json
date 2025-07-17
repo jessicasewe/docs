@@ -103,7 +103,7 @@
         }
       }
     },
-    "/api/payouts/account-verify": {
+    "/api/payouts/account-verification": {
       "post": {
         "description": "This endpoint checks the format and validity of a phone number.",
         "requestBody": {
